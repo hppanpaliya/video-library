@@ -1,46 +1,52 @@
-import { createReadStream } from 'fs';
-import { stat } from 'fs/promises';
+import { createReadStream, statSync } from 'fs';
 import { NextRequest } from 'next/server';
-import path from 'path';
+
 
 export async function GET(request: NextRequest) {
-  const filePath = request.nextUrl.searchParams.get('path');
-  
-  if (!filePath) {
-    return new Response('Path parameter is required', { status: 400 });
-  }
-
   try {
-    const ext = path.extname(filePath).toLowerCase();
-    const stats = await stat(filePath);
+    const urlPath = request.nextUrl.searchParams.get('path');
+    if (!urlPath) {
+      return new Response('Path parameter is required', { status: 400 });
+    }
 
-    const mimeTypes: Record<string, string> = {
-      '.html': 'text/html',
-      '.txt': 'text/plain',
-      '.py': 'text/plain',
-      '.js': 'text/plain',
-      '.java': 'text/plain',
-      '.cpp': 'text/plain',
-      '.zip': 'application/zip',
-      '.xml': 'text/xml',
-      '.yaml': 'text/yaml',
-      '.yml': 'text/yaml',
-      
-    };
+    const filePath = urlPath;
+    const stat = statSync(filePath);
+    const fileSize = stat.size;
+    const range = request.headers.get('range');
 
-    const contentType = mimeTypes[ext] || 'application/octet-stream';
-    const stream = createReadStream(filePath);
+    if (range) {
+      const parts = range.replace(/bytes=/, '').split('-');
+      const start = parseInt(parts[0], 10);
+      const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+      const chunkSize = end - start + 1;
+      const file = createReadStream(filePath, { start, end });
 
-    return new Response(stream as never, {
-      headers: {
-        'Content-Length': stats.size.toString(),
-        'Content-Type': contentType,
-        ...(contentType === 'application/octet-stream' ? {
-          'Content-Disposition': `attachment; filename="${path.basename(filePath)}"`,
-        } : {}),
-      },
-    });
+      const headers = {
+        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': chunkSize.toString(),
+        'Content-Type': 'video/mp4',
+      };
+
+      return new Response(file as never, {
+        status: 206,
+        headers,
+      });
+    } else {
+      const file = createReadStream(filePath);
+      const headers = {
+        'Content-Length': fileSize.toString(),
+        'Content-Type': 'video/mp4',
+        'Accept-Ranges': 'bytes',
+      };
+
+      return new Response(file as never, {
+        status: 200,
+        headers,
+      });
+    }
   } catch (error) {
-    return new Response('Error loading file '+ error , { status: 500 });
+    console.error('Error streaming video:', error);
+    return new Response('Error streaming video', { status: 500 });
   }
 }
