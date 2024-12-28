@@ -1,4 +1,4 @@
-export const CONTENT_DIR = process.env.CONTENT_DIR || '.';
+export const CONTENT_DIR = process.env.CONTENT_DIR || '.videos';
 
 export function encodePathForUrl(fullPath: string): string {
   

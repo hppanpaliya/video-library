@@ -78,5 +78,8 @@ Open a Pull Request
 ## Environment Variables
 
 The following environment variables can be configured in .env.local
+```sh
+echo "CONTENT_DIR=$(pwd)/videos" > .env.local
+```
 
 "CONTENT_DIR" - Directory path for Video files (default: "./videos")
