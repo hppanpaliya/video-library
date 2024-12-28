@@ -1,5 +1,3 @@
-'use client';
-
 export default function VideoPlayer({ src }: { src: string }) {
   return (
     <div className="w-full h-full flex items-center justify-center bg-black">
