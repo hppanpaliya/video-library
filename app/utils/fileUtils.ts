@@ -60,9 +60,18 @@ export async function getFileTree(dirPath: string): Promise<FileItem[]> {
       });
     }
   }
-
   return fileTree.sort((a, b) => {
     if (a.type === b.type) {
+      // Extract the numeric part from the filename
+      const aNumberMatch = a.name.match(/^\d+/);
+      const bNumberMatch = b.name.match(/^\d+/);
+      
+      const aNumber = aNumberMatch ? parseInt(aNumberMatch[0], 10) : -1;
+      const bNumber = bNumberMatch ? parseInt(bNumberMatch[0], 10) : -1;
+
+      if (aNumber !== -1 && bNumber !== -1) {
+        return aNumber - bNumber;
+      }
       return a.name.localeCompare(b.name);
     }
     return a.type === 'folder' ? -1 : 1;
