@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
 import { encodePathForUrl } from '../utils/urlUtils';
 import { CONTENT_DIR } from '../utils/urlUtils';
+import LogoutButton from './LogoutButton';
 
 interface BreadcrumbProps {
   path: string;
@@ -48,6 +49,8 @@ export default function Breadcrumb({ path }: BreadcrumbProps) {
             </Link>
           </div>
         ))}
+        <div className="flex-1" />
+        <LogoutButton />
       </div>
     );
   }
