@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Video Library Viewer
 
-## Getting Started
+A web application built with Next.js 15.1 for viewing and managing video files and related content.
 
-First, run the development server:
+## Features
 
-```bash
+- File browser interface
+- Video playback support
+- Syntax highlighting for code files
+- Dark mode support
+- File downloads
+- Responsive design with Tailwind CSS
+
+## Installation
+
+1. Clone the repository:
+```sh
+git clone https://github.com/hppanpaliya/video-library
+```
+
+```sh
+cd video-library
+```
+
+2. Install dependencies:
+```sh
+npm install
+```
+
+## Development
+
+To run the development server:
+
+```sh
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Building for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Build the application for production:
 
-## Learn More
+```sh
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+Start the production server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+npm run start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+.
+├── app/                 # Next.js app directory
+├── public/              # Static files
+├── videos/              # Video files directory
+├── .next/               # Next.js build output
+├── package.json         # Project dependencies
+└── tailwind.config.ts   # Tailwind CSS configuration
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Technologies Used
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js](https://nextjs.org/) - React framework
+- [React](https://reactjs.org/) - UI library
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [Lucide React](https://lucide.dev/) - Icon library
+- [React Syntax Highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter) - Code syntax highlighting
+
+## Contributing
+
+Open a Pull Request
+
+## Environment Variables
+
+The following environment variables can be configured in .env.local
+
+"CONTENT_DIR" - Directory path for Video files (default: "./videos")
